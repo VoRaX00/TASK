@@ -11,4 +11,6 @@ ural/notification/__pycache__/views.cpython-310.pyc
 */__pycache__
 */migrations/*
 !*/migrations/__init__.py
+/media/user_images/*
 /.idea
+/TASK/info.py
