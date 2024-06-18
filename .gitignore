@@ -8,9 +8,7 @@
 *_more.py
 *cpython-310.pyc
 ural/notification/__pycache__/views.cpython-310.pyc
-/media/user_image/*
 */__pycache__
 */migrations/*
 !*/migrations/__init__.py
-/media/user_images/*
-/media/certificates/*
+/.idea
