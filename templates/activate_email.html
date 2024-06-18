@@ -1,0 +1,8 @@
+{% autoescape off %}
+
+Здравствуйте, {{user.name}}!
+Пожалуйста подтвердить свою почту, кликнув ниже
+
+Ссылка для подтверждения: http://{{domain}}{% url 'user_app:activate' uidb64=uid token=token %}
+
+{% endautoescape %}

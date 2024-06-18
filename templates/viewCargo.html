@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Грузы{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'style/css/search.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <br/>
+<!--    <div class="floating-widget">-->
+<!--        <div class="dropdown">-->
+<!--            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--            Наличие-->
+<!--            </button>-->
+<!--            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">-->
+<!--            <li>-->
+<!--                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">-->
+<!--                <label class="form-check-label" for="flexCheckDefault">Default checkbox</label>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <input class="form-check-input" name="request_price" type="checkbox" id="today" value="request">-->
+<!--                <label class="form-check-label form-text" for="today">В наличии</label>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <input class="form-check-input" name="request_price" type="checkbox" id="zav" value="request">-->
+<!--                <label class="form-check-label form-text" for="zav">Под заказ: сегодня</label>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <input class="form-check-input" name="request_price" type="checkbox" id="poz" value="request">-->
+<!--                <label class="form-check-label form-text" for="poz">Под заказ: позже</label>-->
+<!--            </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="container content-with-filters">
+        <div class="container search-from form-margin" style="max-width: 32rem;">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form action="{% url 'car_cargo:viewCargo' %}" method="post">
+                        <div class="input-group">
+                            {% csrf_token %}
+                            <input type="text" class="form-control search-input" name="search_input" id="search-input" placeholder="Поиск...">
+                            <div class="input-group-append">
+                                <button class="btn btn-dark" style="background-color: #217C6F;" type="submit">Поиск</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% for cargo in page_obj %}
+            <div class="container" style="max-width: 32rem;">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#general{{cargo.id}}"
+                            type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Общее</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#parameter{{cargo.id}}" type="button"
+                            role="tab" aria-controls="profile-tab-pane" aria-selected="false">Характеристики</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#comment{{cargo.id}}"
+                            type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Комментарий</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="general{{cargo.id}}" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                            <div class="card-body">
+                                <div class="mb-3 row">
+                                    <div class="col-4">
+                                        <h5>{{cargo.name}}</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <h6>Откуда: {{cargo.loading_place}}</h6>
+                                        <h6>Куда: {{cargo.unloading_place}}</h6>
+                                        <h6>Даты: {{cargo.loading_data}} - {{cargo.unloading_data}}</h6>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <form action="{% url 'car_cargo:sendCargo' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="cargo_id" name="cargo_id" value="{{ cargo.id }}">
+                                        <button type="submit" class="btn btn-dark" style="background-color: #217C6F;">Откликнуться</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id='parameter{{cargo.id}}' role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                            <div class="card-body">
+                                <div class="mb-3 row">
+                                    <div class="col-6">
+                                        <h7>Длина: {{cargo.length}} м</h7>
+                                    </div>
+                                    <div class="col-6">
+                                        <h7>Ширина: {{cargo.width}} м</h7>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <div class="col-6">
+                                        <h7>Высота: {{cargo.height}} м</h7>
+                                    </div>
+                                    <div class="col-6">
+                                        <h7>Вес: {{cargo.weight}} кг</h7>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <div class="col-6">
+                                        <h7>Объём: {{cargo.volume}} м</h7>
+                                    </div>
+                                    <div class="col-6">
+                                        <h7>Количество места: {{cargo.count_place}}</h7>
+                                    </div>
+                                </div>
+                                {% if cargo.bcash %}
+                                    <div class="mb-3 row">
+                                        <div class="col-6">
+                                            <h7>Оплата: наличными</h7>
+                                        </div>
+                                        <div class="col-6">
+                                            <h7>Цена наличными: {{cargo.price_cash}} руб.</h7>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if cargo.bcashless %}
+                                    <div class="mb-3 row">
+                                        <div class="col-6">
+                                            <h7>Оплата: безналичная</h7>
+
+                                        </div>
+                                        <div class="col-6">
+                                            {% if cargo.bcashless_nds %}
+                                                <h7>Цена с НДС: {{cargo.price_cash_nds}} руб.</h7>
+                                            {% endif %}
+
+                                            {% if cargo.bcashless_without_nds %}
+                                                <h7>Цена без НДС: {{cargo.price_cash_without_nds}} руб.</h7>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if cargo.request_price %}
+                                    <div class="mb-3 row">
+                                        <h6>Указанная цена ориентировочная</h6>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="comment{{cargo.id}}" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                            <div class="card-body">
+                                <h5>{{cargo.comment}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </br>
+        {% endfor %}
+    </div>
+        <div class="mb-3" style="margin:0 auto; margin-top: auto">
+            {% include 'pagination.html' %}
+        </div>
+
+{% endblock content %}
+
+{% block javascript %}
+
+{% endblock javascript %}

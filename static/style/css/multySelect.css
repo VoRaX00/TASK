@@ -1,0 +1,43 @@
+select {
+    display: none;
+  }
+
+  /* Кастомизация внешнего вида чекбокса */
+  .checkbox-item {
+    margin-bottom: 5px;
+  }
+
+  .checkbox-item label {
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 25px; /* Отступ для имитации чекбокса */
+    position: relative;
+  }
+
+  .checkbox-item input[type="checkbox"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+  }
+
+  /* Стилизация внешнего вида чекбокса */
+  .checkbox-item span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    border-radius: 3px;
+  }
+
+  .checkbox-item input[type="checkbox"]:checked + span::after {
+    content: '\2713'; /* Символ галочки */
+    font-size: 12px;
+    color: #009900;
+    position: absolute;
+    left: 3px;
+    top: -1px;
+  }

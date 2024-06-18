@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Изменение профиля{% endblock title %}
+
+{% block css %}
+
+{% endblock css %}
+
+{% block content %}
+    <div class="container min-vh-100 d-flex justify-content-center align-items-center">
+        <form class = 'card p-5' action= "{% url 'user:edit_profile' %}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputName" class="form-label form-text">Имя</label>
+                <input type="text" name='name' value="{{user.name}}" class="form-control" id="exampleInputName">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail" class="form-label form-text">Адрес электронной почты</label>
+                <input type="email" value="{{user.email}}" name='email' class="form-control" id="exampleInputEmail" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail" class="form-label form-text">Номер телефона</label>
+                {% if user.phone == None %}
+                    <input type="tel" value="" name='phone' class="form-control" id='InputPhone'>
+                {% else %}
+                    <input type="tel" value="{{user.phone}}" name='phone' class="form-control" id="InputPhone">
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label form-text">Загрузите изображение</label>
+                <br/>
+                <input type="file" class="form-control-file" id="image" name="image" required>
+            </div>
+            <div class="mb-3">
+                <label for="aboutMe" class="form-label form-text">Обо мне</label>
+                <textarea class="form-control form-text" id="aboutMe" name="aboutMe" rows="5">{{user.about_me}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-dark form-text" style="background-color: #0066FF;">Изменить</button>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block javascript %}
+
+{% endblock javascript %}

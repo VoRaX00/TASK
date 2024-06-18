@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Вход{% endblock title %}
+
+{% block css %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style/css/login.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+    <form class = 'card p-5 login-form' action="{% url 'user:login' %}"  method="post">
+        {% csrf_token %}
+        <h2 class="text-center mb-4">Вход</h2>
+        <div class="mb-3">
+            <label for="userEmail" class="form-label form-text">Адрес электронной почты</label>
+            <input type="email" name="email" class="form-control" id="userEmail" aria-describedby="emailHelp" required>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label form-text">Пароль</label>
+            <input type="password" name='password' class="form-control" id="exampleInputPassword1" required>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <a href="{% url 'user:registration' %}" class="register-link form-text">Зарегистрироваться</a>
+        <button type="submit" class="btn btn-dark from-text" style="background-color: #0066FF;">Отправить</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block javascript %}
+
+{% endblock javascript %}

@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title %}Мои грузы{% endblock title %}
+
+{% block css %}
+    <link href="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/css/suggestions.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+{% endblock css %}
+
+
+{% block content %}
+    <br/>
+    {% for car in page_obj %}
+        <div class="container" style="max-width: 32rem;">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#general{{car.id}}" 
+                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Общее</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#parameter{{car.id}}" type="button" 
+                        role="tab" aria-controls="profile-tab-pane" aria-selected="false">Характеристики</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#comment{{car.id}}"
+                        type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Комментарий</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="general{{car.id}}" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                        <div class="card-body">
+                            <div class="mb-3 row">
+                                <div class="col-4">
+                                    <h5>{{car.name}}</h5>
+                                </div>
+                                <div class="col-8">
+                                    <h6>Откуда: {{car.where_from}}</h6>
+                                    <h6>Куда: {{car.where}}</h6>
+                                    <h6>Даты: {{car.ready_from}} - {{car.ready_to}}</h6>
+                                </div>
+                            </div>
+                            {% comment %} <div class="mb-3">
+                                <button type="submit" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editModal{{car.id}}" style="background-color: #217C6F;">Редактировать</button>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id='parameter{{car.id}}' role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                        <div class="card-body">
+                            <div class="mb-3 row">
+                                <div class="col-4">
+                                    <h7>Длина: {{car.length}} м</h7>
+                                </div>
+                                <div class="col-4">
+                                    <h7>Ширина: {{car.width}} м</h7>
+                                </div>
+                                <div class="col-4">
+                                    <h7>Высота: {{car.height}} м</h7>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-6">
+                                    <h7>Грузоподъёмность, т: {{car.capacity}} кг</h7>
+                                </div>
+                                <div class="col-6">
+                                    <h7>Объём, м³: {{car.volume}} м</h7>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <h7>Тип кузова:</h7>
+                                <ul class="list-group">
+                                    {% for i in car.type_body %}
+                                        <li class="list-group-item">{{i}}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="mb-3 row">
+                                <h7>Тип загрузки:</h7>
+                                <ul class="list-group">
+                                    {% for i in car.type_loading %}
+                                        <li class="list-group-item">{{i}}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="comment{{car.id}}" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                        <div class="card-body">
+                            <h5>{{car.comment}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal{{car.id}}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Редактирование груза</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body mb-3">
+                        <form class = 'card p-5' action="{% url "car_cargo:myCar" %}"  method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="car_id" name="car_id" value="{{car.id}}">
+                            <div class="mb-3">
+                                <label for="car">Автомобиль</label>
+                                <input type="text" name="car" id="car" value="{{car.name}}" class="form-control">
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="bodyType">Тип кузова:</label>
+                                    <select class="form-multi-select" id="bodyType" name="bodyType" multiple>
+                                        <option value="тентовый">Тентовый</option>
+                                        <option value="контейнер">Контейнер</option>
+                                        <option value="открытый конт.">Открытый конт.</option>
+                                        <option value="площадка без бортов">Площадка без бортов</option>
+                                        <option value="фургон">Фургон</option>
+                                        <option value="цельнометалл">Цельнометалл</option>
+                                        <option value="изотермический">Изотермический</option>
+                                        <option value="рефрижератор">Рефрижератор</option>
+                                        <option value="реф. мультирежимный">Реф. мультирежимный</option>
+                                        <option value="реф. с перегородкой">Реф. с перегородкой</option>
+                                        <option value="реф. -тушевоз">Реф. -тушевоз</option>
+                                        <option value="бортовой">Бортовой</option>
+                                        <option value="самосвал">Самосвал</option>
+                                        <option value="шаланда">Шаланда</option>
+                                        <option value="низкорамный">Низкорамный</option>
+                                        <option value="низкорам.платф.">Низкорам.платф.</option>
+                                        <option value="телескопический">Телескопический</option>
+                                        <option value="трал">Трал</option>
+                                        <option value="балковоз(негабарит)">Балковоз(негабарит)</option>
+                                        <option value="автобус">Автобус</option>
+                                        <option value="автовоз">Автовоз</option>
+                                        <option value="автовышка">Автовышка</option>
+                                        <option value="автотранспортер">Автотранспортер</option>
+                                        <option value="бетоновоз">Бетоновоз</option>
+                                        <option value="битумовоз">Битумовоз</option>
+                                        <option value="бензовоз">Бензовоз</option>
+                                        <option value="вездеход">Вездеход</option>
+                                        <option value="газовоз">Газовоз</option>
+                                        <option value="зерновоз">Зерновоз</option>
+                                        <option value="коневоз">Коневоз</option>
+                                        <option value="контейнеровоз">Контейнеровоз</option>
+                                        <option value="кормовоз">Кормовоз</option>
+                                        <option value="кран">Кран</option>
+                                        <option value="лесовоз">Лесовоз</option>
+                                        <option value="ломовоз">Ломовоз</option>
+                                        <option value="манипулятор">Манипулятор</option>
+                                        <option value="микроавтобус">Микроавтобус</option>
+                                        <option value="муковоз">Муковоз</option>
+                                        <option value="панелевоз">Панелевоз</option>
+                                        <option value="пикап">Пикап</option>
+                                        <option value="пухтовоз">Пухтовоз</option>
+                                        <option value="пирамида">Пирамида</option>
+                                        <option value="рулоновоз">Рулоновоз</option>
+                                        <option value="седельный тягач">Седельный тягач</option>
+                                        <option value="скотовоз">Скотовоз</option>
+                                        <option value="стекловоз">Стекловоз</option>
+                                        <option value="трубовоз">Трубовоз</option>
+                                        <option value="цементовоз">Цементовоз</option>
+                                        <option value="автоцистерна">Автоцистерна</option>
+                                        <option value="щеповоз">Щеповоз</option>
+                                        <option value="эвакуатор">Эвакуатор</option>
+                                        <option value="грузопассажирский">Грузопассажирский</option>
+                                        <option value="клюшковоз">Клюшковоз</option>
+                                        <option value="мусоровоз">Мусоровоз</option>
+                                        <option value="jumbo">Jumbo</option>
+                                        <option value="20 танк-контейнер">20 танк-контейнер</option>
+                                        <option value="40 танк-контейнер">40 танк-контейнер</option>
+                                        <option value="мега фура">Мега фура</option>
+                                        <option value="допельшток">Допельшток</option>
+                                        <option value="Раздвижной полуприцеп 20/40">Раздвижной полуприцеп 20/40</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="loadingType">Тип загрузки:</label>
+                                    <select class="form-control" id="loadingType" name="loadingType" multiple>
+                                        <option value="Боковая">Боковая</option>
+                                        <option value="Верхняя">Верхняя</option>
+                                        <option value="Задняя">Задняя</option>
+                                        <option value="С полной растентовкой">С полной растентовкой</option>
+                                        <option value="Со снятием поперечных перекладин">Со снятием поперечных перекладин</option>
+                                        <option value="Со снятием стоек">Со снятием стоек</option>
+                                        <option value="Без ворот">Без ворот</option>
+                                        <option value="Гидроборт">Гидроборт</option>
+                                        <option value="Аппарели">Аппарели</option>
+                                        <option value="С обрешеткой">С обрешеткой</option>
+                                        <option value="С бортами">С бортами</option>
+                                        <option value="Боковая с 2-х сторон">Боковая с 2-х сторон</option>
+                                        <option value="Налив">Налив</option>
+                                        <option value="Электрический">Электрический</option>
+                                        <option value="Гидравлический">Гидравлический</option>
+                                        <option value="Пневматический">Пневматический</option>
+                                        <option value="Дизельный компрессор">Дизельный компрессор</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="capacity">Грузоподъемность, т:</label>
+                                    <input type="number" class="form-control" id="capacity" value="{{car.capacity}}" name="capacity">
+                                </div>
+                                <div class="col">
+                                    <label for="volume">Объем, м^3:</label>
+                                    <input type="number" class="form-control" id="volume" value="{{car.volume}}" name="volume">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="length">Внутренняя длина кузова:</label>
+                                    <input type="number" class="form-control" id="length" value="{{car.length}}" name="length">
+                                </div>
+                                <div class="col">
+                                    <label for="width">Внутренняя ширина кузова:</label>
+                                    <input type="number" class="form-control" id="width" value="{{car.width}}" name="width">
+                                </div>
+                                <div class="col">
+                                    <label for="height">Внутренняя высота кузова:</label>
+                                    <input type="number" class="form-control" id="height" value="{{car.height}}" name="height">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="place_from">Откуда:</label>
+                                    <input type="text" class="form-control" id="place_from" value="{{car.where_from}}" name="place_from"/>
+                                </div>
+                                <div class="col">
+                                    <label for="place_to">Куда:</label>
+                                    <input type="text" class="form-control" id="place_to" value="{{car.where}}" name="place_to"/>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col">
+                                    <label for="readyFrom">Готов к загрузке с:</label>
+                                    <input type="date" class="form-control" id="readyFrom" value="{{car.ready_from}}" name="readyFrom">
+                                </div>
+                                <div class="col">
+                                    <label for="readyTo">Готов к загрузке до:</label>
+                                    <input type="date" class="form-control" id="readyTo" value="{{car.ready_to}}" name="readyTo">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone">Телефон:</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{car.phone}}" style="max-width: 200px">
+                            </div>
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Комментарий:</label>
+                                <textarea class="form-control" id="comment" name="comment" rows="5">{{car.comment}}</textarea>
+                            </div>      
+
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </br>
+    {% endfor %}
+    <div class="mb-3" style="margin:0 auto; margin-top: auto">
+        {% include 'pagination.html' %}
+    </div> 
+{% endblock content %}
+
+
+{% block javascript %}
+    {% load static %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="http://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/js/jquery.suggestions.min.js"></script>
+    <script src={% static 'style/js/autocompleteAddress.js'%}></script>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/js/multi-select-tag.js"></script>
+    <script>
+        new MultiSelectTag('bodyType', {placeholder:'Найти'})
+        new MultiSelectTag('loadingType', {placeholder:'Найти'})  
+    </script>
+{% endblock javascript %}

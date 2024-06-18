@@ -1,0 +1,48 @@
+.form-margin {
+    margin-bottom: 40px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 70px; /* Подстройте это значение в зависимости от вашего заголовка */
+    left: 0;
+    width: 250px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    height: calc(100% - 270px);
+    overflow-y: auto;
+}
+
+.floating-widget {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.content-with-filters {
+    margin-top: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    margin-bottom: 20px;
+}
+
+.form-margin {
+    margin-bottom: 40px; /* Adjust this value to increase the space */
+}
+
+.dropdown-menu {
+    width: max-content + 10px;
+}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock title %}
+
+{% block css %}
+
+{% endblock css %}
+
+{% block content %}
+    <div class="container min-vh-100 d-flex justify-content-center align-items-center">
+        <form class = 'card p-5' action= "{% url 'user:registration' %}" method="post">
+            {% csrf_token %}
+            <h2 class="text-center mb-4">Регистрация</h2>
+            <div class="mb-3">    
+                  <label for="InputName" class="form-label">Имя</label>
+                  <input type="text" name='name' class="form-control" id="InputName" required>
+            </div>
+            <div class="mb-3">
+                <label for="InputEmail1" class="form-label">Адрес электронной почты</label>
+                <input type="email" name='email' class="form-control" id="InputEmail1" aria-describedby="emailHelp" required>
+            </div>
+            <div class="mb-3">
+                <label for="InputPassword1" class="form-label">Пароль</label>
+                <input type="password" name='password1' class="form-control" id="InputPassword1" required>
+            </div>
+            <div class="mb-3">
+                <label for="InputPassword2" class="form-label">Подтвердить пароль</label>
+                <input type="password" name='password2' class="form-control" id="InputPassword2" required>
+            </div>
+            <button type="submit" class="btn btn-dark" style="background-color: #0066FF;">Отправить</button>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">
+                            {{ message|safe }}
+                            <a href="#" class="close">✖</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </form>
+    </div>
+{% endblock content %}
+
+{% block javascript %}
+    {% load static %}
+    <script src="{% static 'style/js/equalPassword' %}"></script>
+{% endblock javascript %}

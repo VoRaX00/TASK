@@ -1,0 +1,14 @@
+.register-link {
+    color: #007bff;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.register-link:hover {
+    text-decoration: underline;
+}
+
+.login-form {
+    width: 400px; /* Увеличение ширины формы */
+}
