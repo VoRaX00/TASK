@@ -43,16 +43,15 @@
                         </ul>
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             {% if request.user.is_authenticated %}
-                                <div class="dropdown">
-                                    <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="{% static '/style/icons/notification.svg'%}" style="max-width: 30px; max-height: 30px;">
-                                    </a>
-<!--                                    <ul class="dropdown-menu">-->
-<!--                                        {%comment%}<li><a class="dropdown-item" href="{% url 'notification:my_notifications' %}">Мои уведомления</a></li>-->
-<!--                                        <li><a class="dropdown-item" href="{% url 'notification:myResponses' %}">Мои отклики</a></li>-->
-<!--                                        <li><a class="dropdown-item" href="{% url 'notification:match' %}">Согласованные предложения</a></li> {%endcomment%}-->
-<!--                                    </ul>-->
-                                </div>
+                            <div class="dropdown"> 
+                                <a class="btn" href="{% url 'user:chat' %}" role="button"> 
+                                    <img src="{% static '/style/icons/message.svg'%}" style="max-width: 27px; max-height: 27px;"> 
+                                </a> 
+                                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                                    <img src="{% static '/style/icons/notification.svg'%}" style="max-width: 30px; max-height: 30px;"> 
+                                </a> 
+                            </div>
+                            
                             {% endif %}
                             <div class="dropdown">
                                 <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
