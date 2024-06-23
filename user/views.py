@@ -126,16 +126,20 @@ def edit_profile(request):
     if request.POST:
         email = request.POST.get('email')
         name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        img = request.FILES.get('image')
+        if request.POST.get('phone'):
+            phone = request.POST.get('phone')
+            request.user.phone = phone
+
+        if request.FILES.get('image'):
+            img = request.FILES.get('image')
+            request.user.image = img
+
         if not checking_name_email(request, email, name) and (email != request.user.email
                                                               or name != request.user.name):
             return redirect('user:edit_profile')
 
         request.user.name = name
         request.user.email = email
-        request.user.phone = phone
-        request.user.image = img
         request.user.about_me = request.POST.get('aboutMe')
         request.user.save()
         return redirect('user:profile')
