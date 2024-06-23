@@ -28,14 +28,14 @@
                             </li>
                             <li class="nav-item">
                                 {% if request.user.is_authenticated %}
-                                    <a class="nav-link {% if 'viewCar/' in request.path %}active{% endif %}" href="#">Задания</a>
+                                    <a class="nav-link {% if 'view_homework/' in request.path %}active{% endif %}" href="{% url 'homework:view_homework' %}">Задания</a>
                                 {% else %}
                                     <a class="nav-link" href="{% url 'user:login' %}">Задания</a>
                                 {% endif %}
                             </li>
                             <li class="nav-item">
                                 {% if request.user.is_authenticated %}
-                                    <a class="nav-link {% if 'addCar/' in request.path %}active{% endif %}" href="#">Разместить задание</a>
+                                    <a class="nav-link {% if 'add_homework/' in request.path %}active{% endif %}" href="{% url 'homework:add_homework' %}">Разместить задание</a>
                                 {% else %}
                                     <a class="nav-link" href="{% url 'user:login' %}">Разместить задание</a>
                                 {% endif %}

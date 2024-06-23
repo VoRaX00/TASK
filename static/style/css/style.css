@@ -11,6 +11,11 @@ section {
     padding: 50px 0;
 }
 
+.custom-container{
+    max-width: 750px;
+    margin: auto
+}
+
 .page{
     display: grid;
     grid-template-rows: auto 1fr auto;
