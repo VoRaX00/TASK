@@ -63,11 +63,11 @@ def registration(request):
         password2 = request.POST.get('password2')
 
         if not checking_name_email(request, email, name):
-            return redirect('user_app:registration')
+            return redirect('user:registration')
 
         if password1 != password2:
             messages.error(request, 'Пароли не совпадают')
-            return redirect('user_app:registration')
+            return redirect('user:registration')
 
         user = User.objects.create_user(name=name, email=email, password=password1)
         user.is_active = False
@@ -107,7 +107,7 @@ def activate(request, uidb64, token):
 
 def profile(request):
     if request.POST:
-        return render(request, 'editProfile.html')
+        return render(request, 'edit_profile.html')
     today = timezone.now().date()
     # my_cargs = Cargo.objects.all().filter(user_id=request.user).filter(loading_data__gt=today).order_by('-id')
     # my_cars = Car.objects.all().filter(user=request.user).filter(ready_from__gt=today).order_by('-id')
@@ -130,7 +130,7 @@ def edit_profile(request):
         img = request.FILES.get('image')
         if not checking_name_email(request, email, name) and (email != request.user.email
                                                               or name != request.user.name):
-            return redirect('user_app:edit_profile')
+            return redirect('user:edit_profile')
 
         request.user.name = name
         request.user.email = email
@@ -138,6 +138,6 @@ def edit_profile(request):
         request.user.image = img
         request.user.about_me = request.POST.get('aboutMe')
         request.user.save()
-        return redirect('user_app:profile')
+        return redirect('user:profile')
 
-    return render(request, 'editProfile.html')
+    return render(request, 'edit_profile.html')

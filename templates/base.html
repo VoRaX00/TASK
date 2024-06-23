@@ -28,16 +28,16 @@
                             </li>
                             <li class="nav-item">
                                 {% if request.user.is_authenticated %}
-                                    <a class="nav-link {% if 'viewCar/' in request.path %}active{% endif %}" href="#">Задани</a>
+                                    <a class="nav-link {% if 'viewCar/' in request.path %}active{% endif %}" href="#">Задания</a>
                                 {% else %}
-                                    <a class="nav-link" href="{% url 'user:login' %}">Найти машину</a>
+                                    <a class="nav-link" href="{% url 'user:login' %}">Задания</a>
                                 {% endif %}
                             </li>
                             <li class="nav-item">
                                 {% if request.user.is_authenticated %}
-                                    <a class="nav-link {% if 'addCar/' in request.path %}active{% endif %}" href="#">Разместить домашку</a>
+                                    <a class="nav-link {% if 'addCar/' in request.path %}active{% endif %}" href="#">Разместить задание</a>
                                 {% else %}
-                                    <a class="nav-link" href="{% url 'user:login' %}">Разместить машину</a>
+                                    <a class="nav-link" href="{% url 'user:login' %}">Разместить задание</a>
                                 {% endif %}
                             </li>
                         </ul>
@@ -47,11 +47,11 @@
                                     <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="{% static '/style/icons/notification.svg'%}" style="max-width: 30px; max-height: 30px;">
                                     </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{% url 'notification:myNotifications' %}">Мои уведомления</a></li>
-                                        <li><a class="dropdown-item" href="{% url 'notification:myResponses' %}">Мои отклики</a></li>
-                                        <li><a class="dropdown-item" href="{% url 'notification:match' %}">Согласованные предложения</a></li>
-                                    </ul>
+<!--                                    <ul class="dropdown-menu">-->
+<!--                                        {%comment%}<li><a class="dropdown-item" href="{% url 'notification:my_notifications' %}">Мои уведомления</a></li>-->
+<!--                                        <li><a class="dropdown-item" href="{% url 'notification:myResponses' %}">Мои отклики</a></li>-->
+<!--                                        <li><a class="dropdown-item" href="{% url 'notification:match' %}">Согласованные предложения</a></li> {%endcomment%}-->
+<!--                                    </ul>-->
                                 </div>
                             {% endif %}
                             <div class="dropdown">

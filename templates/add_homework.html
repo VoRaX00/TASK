@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Добавить машину машину{% endblock title %}
+
+{% block css %}
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/css/suggestions.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+    <link rel="stylesheet" href="{% static 'style/css/rows.css' %}">
+     <link rel="stylesheet" href="{% static 'style/css/resizeFont.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="container min-vh-100 d-flex justify-content-center align-items-center">
+        <form class = 'card p-5' action="{% url 'car_cargo:addCar' %}"  method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-text" for="homework">Название</label>
+                <input type="text" name="homework" id="homework" class="form-control" required>
+            </div>
+            <div class="mb-3 row">
+                <div class="col">
+                    <label class="form-text" for="description">Описание</label>
+                    <input type="text" name="description" id="description" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label class="form-text" for="loadingType">Предмет:</label>
+                    <select class="form-control form-text" id="loadingType" name="loadingType" multiple>
+                        <option value="Мат. анализ">Мат. анализ</option>
+                        <option value="Линейненая алгебра">Линейненая алгебра</option>
+                        <option value="Дискретная математика">Дискретная математика</option>
+                        <option value="БЖД">БЖД</option>
+                        <option value="Русский язык">Русский язык</option>
+                        <option value="Английский язык">Английский язык</option>
+                        <option value="Физика">Физика</option>
+                        <option value="Дифф. уравнения">Дифф. уравнения</option>
+                        <option value="Теория вероятности">Теория вероятности</option>
+                        <option value="Мат. статистика">Мат. статистика</option>
+                        <option value="Геометрия">Геометрия</option>
+                        <option value="Мат. логика">Мат. логика</option>
+                        <option value="Философия">Философия</option>
+                        <option value="Физ-ра">Физ-ра</option>
+                        <option value="История">История</option>
+                        <option value="Проекты в IT">Проекты в IT</option>
+                        <option value="Ассемблер">Ассемблер</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col">
+                    <label class="form-text label-row" for="length">Внутренняя длина кузова:</label>
+                    <input type="number" step="any" min="0" class="form-control form-text" id="length" name="length" required>
+                </div>
+                <div class="col">
+                    <label class="form-text label-row" for="width">Внутренняя ширина кузова:</label>
+                    <input type="number" step="any" min="0" class="form-control form-text" id="width" name="width" required>
+                </div>
+                <div class="col">
+                    <label class="form-text label-row" for="height">Внутренняя высота кузова:</label>
+                    <input type="number" step="any" min="0" class="form-control form-text" id="height" name="height" required>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col">
+                    <label class="form-text" for="place_from">Откуда:</label>
+                    <input type="text" class="form-control" id="place_from" name="place_from" required>
+                </div>
+                <div class="col">
+                    <label class="form-text" for="place_to">Куда:</label>
+                    <input type="text" class="form-control" id="place_to" name="place_to" required>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col">
+                    <label class="form-text" for="readyFrom">Готов к загрузке с:</label>
+                    <input type="date" class="form-control" id="readyFrom" name="readyFrom" required>
+                </div>
+                <div class="col">
+                    <label class="form-text" for="readyTo">Готов к загрузке до:</label>
+                    <input type="date" class="form-control" id="readyTo" name="readyTo" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-text" for="phone">Телефон:</label>
+                <input type="tel" class="form-control" id="phone" name="phone" style="max-width: 200px" required>
+            </div>
+            <div class="mb-3">
+                <label for="comment" class="form-label form-text">Комментарий:</label>
+                <textarea class="form-control" id="comment" name="comment" rows="5"></textarea>
+            </div>                
+            <button type="submit" class="btn btn-dark form-text" style="background-color: #217C6F;">Отправить</button>
+        </form>
+    </div>
+{% endblock content %}
+
+{% block javascript %}
+    {% load static %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@22.6.0/dist/js/jquery.suggestions.min.js"></script>
+    <script src="{% static 'style/js/autocompleteAddress.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/js/multi-select-tag.js"></script>
+    <script>
+        new MultiSelectTag('bodyType', {placeholder:'Найти'})
+        new MultiSelectTag('loadingType', {placeholder:'Найти'})  
+    </script>
+{% endblock javascript %}
