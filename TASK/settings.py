@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'user',
     'notification',
     'homework',
+    'chat',
 ]
 
 AUTH_USER_MODEL = 'user.User'

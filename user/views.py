@@ -122,7 +122,7 @@ def profile(request):
     return render(request, 'profile.html')
 
 def chat_view(request):
-    return render(request, 'chat.html')
+    return render(request, 'home.html')
 
 def edit_profile(request):
     if request.POST:
