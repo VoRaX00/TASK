@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import OuterRef, Subquery
 from django.utils import timezone
 from .models import Homework
 from django.core.paginator import Paginator
@@ -17,8 +18,12 @@ def view_homework(request):
             '-id')
     else:
         today = timezone.now().date()
+        subquery = NotifyHomework.objects.filter(
+            first_user=request.user,
+            homework=OuterRef('pk')
+        ).values('homework')
         homeworks = Homework.objects.all().filter(deadline__gte=today).select_related('user').exclude(
-            user=request.user).order_by('-id')
+            user=request.user).exclude(pk__in=Subquery(subquery)).order_by('-id')
 
     paginator = Paginator(homeworks, per_page=4)
     page_number = request.GET.get('page')

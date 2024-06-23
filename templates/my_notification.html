@@ -21,15 +21,16 @@
                                 <li>{{ subject }}</li>
                             {% endfor %}
                         </ul>
+                        <p class="card-text"><strong>Рейтинг:</strong> {{ notify.homework.rating }}</p>
                         <p class="card-text"><strong>Описание:</strong> {{ notify.homework.description }}</p>
                     </div>
                     <div class="card-footer">
                         <form action="{% url 'notification:my_notification' %}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" id="accept_id" name="accept_id" value="{{ homework.id }}">
+                            <input type="hidden" id="accept_id" name="accept_id" value="{{ notify.homework.id }}">
                             <button class="btn btn-primary" name="accept" id="accept" type="submit">Принять</button>
 
-                            <input type="hidden" id="reject_id" name="reject_id" value="{{ homework.id }}">
+                            <input type="hidden" id="reject_id" name="reject_id" value="{{ notify.homework.id }}">
                             <button class="btn btn-primary" name="reject" id="reject" type="submit">Отклонить</button>
                         </form>
                     </div>
