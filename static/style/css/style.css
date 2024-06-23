@@ -12,6 +12,11 @@ html, body{
     justify-content: flex-end;
 }
 
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
+
 section {
     padding: 50px 0;
 }
