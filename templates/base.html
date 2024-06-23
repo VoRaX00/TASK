@@ -47,11 +47,11 @@
                                     <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="{% static '/style/icons/notification.svg'%}" style="max-width: 30px; max-height: 30px;">
                                     </a>
-<!--                                    <ul class="dropdown-menu">-->
-<!--                                        {%comment%}<li><a class="dropdown-item" href="{% url 'notification:my_notifications' %}">Мои уведомления</a></li>-->
-<!--                                        <li><a class="dropdown-item" href="{% url 'notification:myResponses' %}">Мои отклики</a></li>-->
-<!--                                        <li><a class="dropdown-item" href="{% url 'notification:match' %}">Согласованные предложения</a></li> {%endcomment%}-->
-<!--                                    </ul>-->
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{% url 'notification:my_notifications' %}">Мои уведомления</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'notification:my_responses' %}">Мои отклики</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'notification:my_match' %}">Согласованные предложения</a></li>
+                                    </ul>
                                 </div>
                             {% endif %}
                             <div class="dropdown">

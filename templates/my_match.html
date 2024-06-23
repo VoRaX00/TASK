@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Мои отклики{% endblock title %}
+{% block title %}Согласованные предложения{% endblock title %}
 
 {% block css %}
 
@@ -21,13 +21,6 @@
                         {% endfor %}
                     </ul>
                     <p class="card-text"><strong>Описание:</strong> {{ notify.homework.description }}</p>
-                </div>
-                <div class="card-footer">
-                    <form action="{% url 'notification:my_responses' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" id="homework_id" name="homework_id" value="{{ homework.id }}">
-                        <button class="btn btn-primary" name="delete" id="delete" type="submit">Удалить</button>
-                    </form>
                 </div>
             </div>
         </div>

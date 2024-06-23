@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from .models import Homework
 from django.core.paginator import Paginator
+from notification.models import NotifyHomework
 
 
 def view_homework(request):
@@ -17,7 +18,7 @@ def view_homework(request):
     else:
         today = timezone.now().date()
         homeworks = Homework.objects.all().filter(deadline__gte=today).select_related('user').exclude(
-           user=request.user).order_by('-id')
+            user=request.user).order_by('-id')
 
     paginator = Paginator(homeworks, per_page=4)
     page_number = request.GET.get('page')
@@ -32,7 +33,19 @@ def add_homework(request):
         subjects = request.POST.getlist('subject')
         print(subjects)
         homework = Homework(name=request.POST['homework'], description=request.POST['description'], subjects=subjects,
-                            user=request.user, deadline=request.POST['deadline'])
+                            user=request.user, difficulty=request.POST['difficulty'], rating=request.POST['rating'],
+                            deadline=request.POST['deadline'])
         homework.save()
         return redirect('homework:view_homework')
     return render(request, 'add_homework.html')
+
+
+def add_response(request):
+    id = request.POST.get('homework_id')
+    hw = Homework.objects.get(id=id)
+    if request.user == hw.user:
+        return redirect('homework:view_homework')
+
+    notify = NotifyHomework(homework=hw, first_user=request.user, second_user=hw.user)
+    notify.save()
+    return redirect('homework:view_homework')
