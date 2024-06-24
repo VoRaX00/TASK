@@ -1,7 +1,6 @@
 <nav aria-label="...">
     <ul class="pagination">
         {% if page_obj.paginator.count != 0 %}
-
             {% if page_obj.has_previous %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a> 
@@ -10,9 +9,8 @@
                 <li class="page-item disabled">
                     <a class="page-link" href="#">&laquo;</a> 
                 </li>
-            {% endif %} 
+            {% endif %}
 
-        
             {% for num_page in page_obj.paginator.page_range %}
                 {% if page_obj.number == num_page %}
                     <li class="page-item active" aria-current="page">

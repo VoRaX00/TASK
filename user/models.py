@@ -36,6 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255, blank=True, default='')
     email = models.EmailField(blank=True, default='', unique=True)
     phone = models.BigIntegerField(null=True, unique=False)
+    rating = models.FloatField(default=5.0)
     about_me = models.TextField(max_length=700, null=False, default='Пусто', unique=False)
     image = models.ImageField(upload_to='user_images', default='user_images/default.svg', unique=False)
     is_active = models.BooleanField(default=False)

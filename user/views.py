@@ -8,10 +8,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
-# from car_cargo.models import Cargo, Car
-# from car_cargo.views import array_cars
+from homework.models import Homework
 from django.core.paginator import Paginator
-# from notification.views import objects_notify
 from django.utils import timezone
 from chat import models
 
@@ -109,17 +107,18 @@ def profile(request):
     if request.POST:
         return render(request, 'edit_profile.html')
     today = timezone.now().date()
+    my_homework = Homework.objects.all().filter(user=request.user).filter(deadline__gte=today).order_by('-id')
     # my_cargs = Cargo.objects.all().filter(user_id=request.user).filter(loading_data__gt=today).order_by('-id')
     # my_cars = Car.objects.all().filter(user=request.user).filter(ready_from__gt=today).order_by('-id')
     # cars = array_cars(my_cars)
     # objects = objects_notify(my_cargs, cars)
 
-    # paginator = Paginator(objects, per_page=5)
-    # page_number = request.GET.get('page')
-    # page_obj = paginator.get_page(page_number)
-    # context = {'page_obj': page_obj}
+    paginator = Paginator(my_homework, per_page=4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'page_obj': page_obj}
 
-    return render(request, 'profile.html')
+    return render(request, 'profile.html', context=context)
 
 def chat_view(request):
     return render(request, 'home.html')
