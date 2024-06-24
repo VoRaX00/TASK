@@ -13,7 +13,7 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from notification.Observer import DefaultUserObserver
 from notification.Observer import UserSubject
-
+from chat import models
 
 def checking_name_email(request, email, name):
     if User.objects.filter(email=email):
@@ -128,6 +128,8 @@ def profile(request):
 
     return render(request, 'profile.html', context=context)
 
+def chat_view(request):
+    return render(request, 'home.html')
 
 def edit_profile(request):
     if request.POST:
