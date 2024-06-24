@@ -4,6 +4,7 @@ from django.utils import timezone
 from .models import Homework
 from django.core.paginator import Paginator
 from notification.models import NotifyHomework
+from user.Strategy import Context, StrategyUser, StrategyProgrammers
 
 
 def view_homework(request):
@@ -50,7 +51,13 @@ def add_response(request):
     hw = Homework.objects.get(id=id)
     if request.user == hw.user:
         return redirect('homework:view_homework')
+    if 'Программирование' in hw.subjects:
+        context = Context(StrategyProgrammers(), request.user.rating, hw.rating)
+    else:
+        context = Context(StrategyUser(), request.user.rating, hw.rating)
+    context.rating()
 
     notify = NotifyHomework(homework=hw, first_user=request.user, second_user=hw.user)
     notify.save()
+
     return redirect('homework:view_homework')

@@ -62,3 +62,8 @@ def my_match(request):
 
     context = get_context(notifications, request)
     return render(request, 'my_match.html', context=context)
+
+
+def notification_news(user):
+    # add news for user
+    return
