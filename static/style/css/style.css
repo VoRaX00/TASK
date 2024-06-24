@@ -7,8 +7,23 @@ html, body{
     margin-right: 10px;
 }
 
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
+
 section {
     padding: 50px 0;
+}
+
+.custom-container{
+    max-width: 750px;
+    margin: auto
 }
 
 .page{

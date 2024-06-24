@@ -5,7 +5,7 @@ from notification import views
 app_name = 'notification'
 
 urlpatterns = [
-    # path('MyNotification/', views.my_notification, name='myNotifications'),
-    # path('MyResponses/', views.my_responses, name='myResponses'),
-    # path('Match/', views.match, name='match'),
+    path('my_notification/', views.my_notification, name='my_notifications'),
+    path('my_responses/', views.my_responses, name='my_responses'),
+    path('my_match/', views.my_match, name='my_match'),
 ]

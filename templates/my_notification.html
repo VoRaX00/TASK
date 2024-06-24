@@ -8,218 +8,37 @@
 
 {% block content %}
     <br/>
-    {% for obj in page_obj %}
-        {% if obj.car != None %}
-            <div class="container" style="max-width: 32rem;">
+    <div class="container content-with-filters">
+        {% for notify in page_obj %}
+            <div class="container custom-container">
                 <div class="card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#generalCar{{obj.id}}" 
-                            type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Общее</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#parameterCar{{obj.id}}" type="button" 
-                            role="tab" aria-controls="profile-tab-pane" aria-selected="false">Характеристики</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#commentCar{{obj.id}}"
-                            type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Комментарий</button>
-                            </li>
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">{{ notify.homework.name }}</h5>
+                        <p class="card-text"><strong>Сложность:</strong> {{ notify.homework.difficulty }}</p>
+                        <p class="card-text"><strong>Список предметов:</strong></p>
+                        <ul class="list-unstyled">
+                            {% for subject in notify.homework.subjects %}
+                                <li>{{ subject }}</li>
+                            {% endfor %}
                         </ul>
+                        <p class="card-text"><strong>Рейтинг:</strong> {{ notify.homework.rating }}</p>
+                        <p class="card-text"><strong>Описание:</strong> {{ notify.homework.description }}</p>
                     </div>
+                    <div class="card-footer">
+                        <form action="{% url 'notification:my_notification' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="accept_id" name="accept_id" value="{{ notify.homework.id }}">
+                            <button class="btn btn-primary" name="accept" id="accept" type="submit">Принять</button>
 
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="generalCar{{obj.id}}" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                            <div class="card-body">
-                                <div class="mb-3 row">
-                                    <div class="col-4">
-                                        <h5>{{obj.car.name}}</h5>
-                                    </div>
-                                    <div class="col-8">
-                                        <h6>Откуда: {{obj.car.where_from}}</h6>
-                                        <h6>Куда: {{obj.car.where}}</h6>
-                                        <h6>Даты: {{obj.car.ready_from}} - {{obj.car.ready_to}}</h6>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <form action="{% url 'notification:myNotifications' %}" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" id="obj_car_accept_id" name="obj_car_accept_id" value="{{ obj.id }}">
-                                        <button type="submit" name="accept" id="accept" class="btn btn-dark" style="background-color: #217C6F;">Принять</button>
-                                    
-                                        <input type="hidden" id="obj_car_reject_id" name="obj_car_reject_id" value="{{ obj.id }}">
-                                        <button type="submit" name="reject" id="reject" class="btn btn-dark" style="background-color: #DC143C;">Отклонить</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id='parameterCar{{obj.id}}' role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                            <div class="card-body">
-                                <div class="mb-3 row">
-                                    <div class="col-4">
-                                        <h7>Длина: {{obj.car.length}} м</h7>
-                                    </div>
-                                    <div class="col-4">
-                                        <h7>Ширина: {{obj.car.width}} м</h7>
-                                    </div>
-                                    <div class="col-4">
-                                        <h7>Высота: {{obj.car.height}} м</h7>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <div class="col-6">
-                                        <h7>Грузоподъёмность, т: {{obj.car.capacity}} кг</h7>
-                                    </div>
-                                    <div class="col-6">
-                                        <h7>Объём, м³: {{obj.car.volume}} м</h7>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <h7>Тип кузова:</h7>
-                                    <ul class="list-group">
-                                        {% for i in obj.car.type_body %}
-                                            <li class="list-group-item">{{i}}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <div class="mb-3 row">
-                                    <h7>Тип загрузки:</h7>
-                                    <ul class="list-group">
-                                        {% for i in obj.car.type_loading %}
-                                            <li class="list-group-item">{{i}}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="commentCar{{obj.id}}" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                            <div class="card-body">
-                                <h5>{{obj.car.comment}}</h5>
-                            </div>
-                        </div>
+                            <input type="hidden" id="reject_id" name="reject_id" value="{{ notify.homework.id }}">
+                            <button class="btn btn-primary" name="reject" id="reject" type="submit">Отклонить</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        {% else %}
-            <div class="container" style="max-width: 32rem;">
-                <div class="card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#generalCargo{{obj.id}}" 
-                                type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Общее</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#parameterCargo{{obj.id}}" type="button" 
-                            role="tab" aria-controls="profile-tab-pane" aria-selected="false">Характеристики</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#commentCargo{{obj.id}}"
-                                type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Комментарий</button>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="generalCargo{{obj.id}}" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                            <div class="card-body">
-                                <div class="mb-3 row">
-                                    <div class="col-4">
-                                        <h5>{{obj.cargo.name}}</h5>
-                                    </div>
-                                    <div class="col-8">
-                                        <h6>Откуда: {{obj.cargo.loading_place}}</h6>
-                                        <h6>Куда: {{obj.cargo.unloading_place}}</h6>
-                                        <h6>Даты: {{obj.cargo.loading_data}} - {{obj.cargo.unloading_data}}</h6>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <form action="{% url 'notification:myNotifications' %}" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" id="obj_cargo_accept_id" name="obj_cargo_accept_id" value="{{ obj.id }}">
-                                        <button type="submit" name="accept" id="accept" class="btn btn-dark" style="background-color: #217C6F;">Принять</button>
-                                        
-                                        <input type="hidden" id="obj_cargo_reject_id" name="obj_cargo_reject_id" value="{{ obj.id }}">
-                                        <button type="submit" name="reject" id="reject" class="btn btn-dark" style="background-color: #DC143C;">Отклонить</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id='parameterCargo{{obj.id}}' role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                            <div class="card-body">
-                                <div class="mb-3 row">
-                                    <div class="col-6">
-                                        <h7>Длина: {{obj.cargo.length}} м</h7>
-                                    </div>
-                                    <div class="col-6">
-                                        <h7>Ширина: {{obj.cargo.width}} м</h7>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <div class="col-6">
-                                        <h7>Высота: {{obj.cargo.height}} м</h7>
-                                    </div>
-                                    <div class="col-6">
-                                        <h7>Вес: {{obj.cargo.weight}} кг</h7>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <div class="col-6">
-                                        <h7>Объём: {{obj.cargo.volume}} м</h7>
-                                    </div>
-                                    <div class="col-6">
-                                        <h7>Количество места: {{obj.cargo.count_place}}</h7>
-                                    </div>
-                                </div>
-                                {% if obj.cargo.bcash %}
-                                    <div class="mb-3 row">
-                                        <div class="col-6">
-                                            <h7>Оплата: наличными</h7>
-                                        </div>
-                                        <div class="col-6">
-                                            <h7>Цена наличными: {{obj.cargo.price_cash}} руб.</h7>
-                                        </div>
-                                    </div>
-                                {% endif %}
-
-                                {% if obj.cargo.bcashless %}
-                                    <div class="mb-3 row">
-                                        <div class="col-6">
-                                            <h7>Оплата: безналичная</h7>
-                                        </div>
-                                        <div class="col-6">
-                                            {% if obj.cargo.bcashless_nds %}
-                                                <h7>Цена с НДС: {{obj.cargo.price_cash_nds}} руб.</h7>
-                                            {% endif %}
-
-                                            {% if cargo.bcashless_without_nds %}
-                                                <h7>Цена без НДС: {{obj.cargo.price_cash_without_nds}} руб.</h7>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                
-                                {% if obj.cargo.request_price %}
-                                    <div class="mb-3 row">
-                                        <h6>Указанная цена ориентировочная</h6>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="commentCargo{{obj.id}}" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                            <div class="card-body">
-                                <h5>{{obj.cargo.comment}}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-            </br>
-        {% endif%}
-        <br/>
-    {% endfor %}
-
+            <br/>
+        {% endfor %}
+    </div>
     <div class="mb-3" style="margin:0 auto; margin-top: auto">
         {% include 'pagination.html' %}
     </div>
