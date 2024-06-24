@@ -1,30 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+{% extends "base.html" %}
+{% block title %}Social Chat{% endblock title %}
+
+{% block css %}
 <style>
-body {
-  background-color: #009579;
+/* Ваши дополнительные стили для чата */
+.chat-container {
+  width: 70%;;
   margin: 0 auto;
-  max-width: 800px;
   padding: 0 20px;
 }
 
+body {
+  background-color: #ffffff; /* Устанавливаем белый фон для body */
+}
+
+.navbar.top-menu {
+  background-color: #0066FF; /* Цвет панели навигации */
+}
+
+/* Стили для контейнера чата */
 .container {
-  border: 2px solid #009579;
-  background-color: #0cb795;
+  border: 2px solid #5b5b5b; /* Изменяем цвет границы */
+  
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
 }
 
 .darker {
-  border-color: #31cebc;
-  background-color: #f5f5dc;
+  border-color: #bbb;
+  background-color: #f5f5f5;
   color: rgb(13, 2, 2);
 }
-
 
 .container::after {
   content: "";
@@ -43,7 +50,7 @@ body {
 .container img.right {
   float: right;
   margin-left: 20px;
-  margin-right:0;
+  margin-right: 0;
 }
 
 .time-right {
@@ -55,110 +62,75 @@ body {
   float: left;
   color: #999;
 }
+
 #display {
-  background-color: #0cb795; /* Light gray background */
-  color: #333; /* Dark gray text color for contrast */
+  background-color: #ffffff; /* Устанавливаем белый цвет фона */
+  color: #333; /* Темно-серый цвет текста для контраста */
 }
 
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #0066FF;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #0066FF; /* Цвет кнопки */
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #0066FF; /* Цвет кнопки при наведении */
+}
+
+/* Style for the button */
+#scrollBtn {
+  display: none;
+  position: fixed;
+  top: 20px; /* Adjust the top value to change the distance from the top */
+  right: 20px;
+  background-color: #5b5b5b; /* Цвет кнопки Scroll Down */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Style for the down arrow icon */
+#scrollBtn::after {
+  content: '\2193'; /* Unicode arrow down character */
+  font-size: 20px;
+  margin-left: 5px;
+}
 </style>
-<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-</head>
-<body>
-<h2 style="color: white; text-align: center; margin-top: 12px;">{{room}} - ChatLong</h2>
-<br>
-<a href="", target="_blank"><button class="btn btn-secondary" type="button">Go to Video Call</button></a>
-<br>
+{% endblock css %}
 
-<button id="scrollBtn" class="btn btn-secondary" onclick="scrollToBottom()">Scroll Down</button>
+{% block content %}
+<div class="chat-container">
+  <h2 style="color: #333; text-align: center; margin-top: 12px;">Social Chat</h2>
+  <br>
 
-<div id="display">
+  <button id="scrollBtn" class="btn btn-secondary" onclick="scrollToBottom()">Scroll Down</button>
 
-<!-- <div class="container darker">
-  <b>Tom</b><p>Hello Everyone, How Are You Guys Doing?</p>
-  <span class="time-left">20th, April 2021</span>
-</div> -->
+  <div id="display">
+    <!-- <div class="container darker">
+      <b>Tom</b><p>Hello Everyone, How Are You Guys Doing?</p>
+      <span class="time-left">20th, April 2021</span>
+    </div> -->
+  </div>
 
-</div>
-
-<script>
-$(document).ready(function(){
-
-setInterval(function(){
-    $.ajax({
-        type: 'GET',
-        url : "/getMessages/{{room}}/",
-        success: function(response){
-            console.log(response);
-            $("#display").empty();
-            for (var key in response.messages)
-            {
-                var temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
-                $("#display").append(temp);
-            }
-        },
-        error: function(response){
-            alert('An error occured')
-        }
-    });
-},1000);
-})
-</script>
-
-
-<div class="container">
-    <style>
-    input[type=text], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #4CAF50;
-    border-radius: 4px;
-    box-sizing: border-box;
-    }
-
-    input[type=submit] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    }
-
-    input[type=submit]:hover {
-    background-color: #45a049;
-    }
-
-    div {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-    }
-        /* Style for the button */
-      #scrollBtn {
-          display: none;
-          position: fixed;
-          top: 20px; /* Adjust the top value to change the distance from the top */
-          right: 20px;
-          background-color: #056b58;
-          color: #fff;
-          border: none;
-          padding: 10px 20px;
-          cursor: pointer;
-          border-radius: 5px;
-      }
-       /* Style for the down arrow icon */
-      #scrollBtn::after {
-          content: '\2193'; /* Unicode arrow down character */
-          font-size: 20px;
-          margin-left: 5px;
-        }
-    </style>
-    <a href="", target="_blank"><button class="btn btn-secondary" type="button">Video Call</button></a>
-    <a href="{% url 'home' %}" ><button class="btn btn-secondary" type="button">Home</button></a>
+  <div class="container">
 
     <form id="post-form">
         {% csrf_token %}
@@ -167,36 +139,67 @@ setInterval(function(){
         <input type="text" name="message" id="message" width="100px" />
         <input type="submit" value="Send">
     </form>
+  </div>
 </div>
+{% endblock content %}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+    setInterval(function(){
+        $.ajax({
+            type: 'GET',
+            url : "/getMessages/{{room}}/",
+            success: function(response){
+                console.log(response);
+                $("#display").empty();
+                for (var key in response.messages)
+                {
+                    var temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
+                    $("#display").append(temp);
+                }
+            },
+            error: function(response){
+                alert('An error occured');
+            }
+        });
+    }, 1000);
+});
+</script>
 
 <script type="text/javascript">
-  $(document).on('submit','#post-form',function(e){
+$(document).on('submit','#post-form',function(e){
     e.preventDefault();
 
     $.ajax({
-      type:'POST',
-      url:'/send',
-      data:{
-          username:$('#username').val(),
-          room_id:$('#room_id').val(),
-          message:$('#message').val(),
-        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-      },
-      success: function(data){
-         //alert(data)
-      }
+        type: 'POST',
+        url: '/send',
+        data: {
+            username: $('#username').val(),
+            room_id: $('#room_id').val(),
+            message: $('#message').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function(data){
+            console.log('Message sent:', data);
+            var userName = $('#username').val();
+            var message = $('#message').val();
+            var currentDateTime = new Date().toLocaleString();
+
+            var temp="<div class='container darker'><b>"+ userName +"</b><p>"+ message +"</p><span class='time-left'>"+ currentDateTime +"</span></div>";
+            $("#display").append(temp);
+
+            scrollToBottom();
+        }
     });
-    document.getElementById('message').value = ''
-  });
-// JavaScript function to scroll the page to the bottom
+    document.getElementById('message').value = '';
+});
+
 function scrollToBottom() {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth',duration: 50 });
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
-// Show/hide the scroll button based on scroll position
 window.onscroll = function () {
     var scrollBtn = document.getElementById("scrollBtn");
     var scrolledToBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
@@ -209,4 +212,5 @@ window.onscroll = function () {
 };
 </script>
 
-</html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+{% endblock javascript %}
