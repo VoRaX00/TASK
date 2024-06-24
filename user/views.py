@@ -11,6 +11,8 @@ from .tokens import account_activation_token
 from homework.models import Homework
 from django.core.paginator import Paginator
 from django.utils import timezone
+from notification.Observer import DefaultUserObserver
+from notification.Observer import UserSubject
 
 
 def checking_name_email(request, email, name):
@@ -69,7 +71,13 @@ def registration(request):
 
         user = User.objects.create_user(name=name, email=email, password=password1)
         user.is_active = False
+
         user.save()
+
+        subject = UserSubject()
+        observer = DefaultUserObserver(request.user)
+        subject.attach(observer)
+        subject.some_business_logic()
 
         current_site = get_current_site(request)
         mail_subject = 'Ссылка на активацию была отправлена на вашу электронную почту'
