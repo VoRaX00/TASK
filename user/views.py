@@ -13,7 +13,7 @@ from .tokens import account_activation_token
 from django.core.paginator import Paginator
 # from notification.views import objects_notify
 from django.utils import timezone
-
+from chat import models
 
 def checking_name_email(request, email, name):
     if User.objects.filter(email=email):

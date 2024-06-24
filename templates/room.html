@@ -3,7 +3,6 @@
 
 {% block css %}
 <style>
-/* Ваши дополнительные стили для чата */
 .chat-container {
   width: 70%;;
   margin: 0 auto;
@@ -11,16 +10,16 @@
 }
 
 body {
-  background-color: #ffffff; /* Устанавливаем белый фон для body */
+  background-color: #ffffff; 
 }
 
 .navbar.top-menu {
-  background-color: #0066FF; /* Цвет панели навигации */
+  background-color: #0066FF; 
 }
 
-/* Стили для контейнера чата */
+
 .container {
-  border: 2px solid #5b5b5b; /* Изменяем цвет границы */
+  border: 2px solid #5b5b5b; 
   
   border-radius: 5px;
   padding: 10px;
@@ -64,8 +63,8 @@ body {
 }
 
 #display {
-  background-color: #ffffff; /* Устанавливаем белый цвет фона */
-  color: #333; /* Темно-серый цвет текста для контраста */
+  background-color: #ffffff; 
+  color: #333; 
 }
 
 input[type=text], select {
@@ -80,7 +79,7 @@ input[type=text], select {
 
 input[type=submit] {
   width: 100%;
-  background-color: #0066FF; /* Цвет кнопки */
+  background-color: #0066FF; 
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -90,16 +89,16 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-  background-color: #0066FF; /* Цвет кнопки при наведении */
+  background-color: #0066FF; 
 }
 
-/* Style for the button */
+
 #scrollBtn {
   display: none;
   position: fixed;
-  top: 20px; /* Adjust the top value to change the distance from the top */
+  top: 20px; 
   right: 20px;
-  background-color: #5b5b5b; /* Цвет кнопки Scroll Down */
+  background-color: #5b5b5b; 
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -107,9 +106,9 @@ input[type=submit]:hover {
   border-radius: 5px;
 }
 
-/* Style for the down arrow icon */
+
 #scrollBtn::after {
-  content: '\2193'; /* Unicode arrow down character */
+  content: '\2193'; 
   font-size: 20px;
   margin-left: 5px;
 }
@@ -124,10 +123,7 @@ input[type=submit]:hover {
   <button id="scrollBtn" class="btn btn-secondary" onclick="scrollToBottom()">Scroll Down</button>
 
   <div id="display">
-    <!-- <div class="container darker">
-      <b>Tom</b><p>Hello Everyone, How Are You Guys Doing?</p>
-      <span class="time-left">20th, April 2021</span>
-    </div> -->
+    
   </div>
 
   <div class="container">

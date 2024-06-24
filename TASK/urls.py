@@ -23,7 +23,7 @@ urlpatterns = [
     path('', include('main.urls', namespace='main')),
     path('', include('user.urls', namespace='user')),
     path('', include('notification.urls', namespace='notification')),
-    path('', include('chat.urls')),
+    path('', include('chat.urls',namespace = 'chat')),
 ]
 
 if settings.DEBUG:

@@ -16,8 +16,8 @@ def room(request, room):
     })
 
 def checkview(request):
-    room = request.POST['room_name']
-    username = request.POST['username']
+    room = 'SocialChat'
+    username = request.user.name
 
     if Room.objects.filter(name=room).exists():
         return redirect('/'+room+'/?username='+username)

@@ -44,7 +44,7 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             {% if request.user.is_authenticated %}
                             <div class="dropdown"> 
-                                <a class="btn" href="{% url 'user:chat' %}" role="button"> 
+                                <a class="btn" href="{% url 'chat:checkview' %}" role="button"> 
                                     <img src="{% static '/style/icons/message.svg'%}" style="max-width: 27px; max-height: 27px;"> 
                                 </a> 
                                 <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
